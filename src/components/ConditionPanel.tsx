@@ -1,12 +1,22 @@
+import { AddIcon, DeleteIcon } from '@chakra-ui/icons'
+import {
+  ButtonGroup,
+  Checkbox,
+  Flex,
+  IconButton,
+  Input,
+  Select
+} from '@chakra-ui/react'
 import { useState } from 'react'
 
 interface ConditionPanelProps {
   count: number
   condition: Condition
+  fields: Field[]
 }
 
-function ConditionPanel({ count }: ConditionPanelProps) {
-  const [connection, setConnection] = useState(count === 1 ? 'When' : 'and')
+function ConditionPanel({ count, condition, fields }: ConditionPanelProps) {
+  const [connection, setConnection] = useState('and')
 
   const toggleConnection = () => {
     if (count > 1) {
@@ -14,44 +24,51 @@ function ConditionPanel({ count }: ConditionPanelProps) {
     }
   }
 
+  const renderFields = () => {
+    return fields.map((field, index) => {
+      return (
+        <option key={index} value={field.name}>
+          {field.name}
+        </option>
+      )
+    })
+  }
+
   return (
-    <div>
+    <Flex>
+      <Checkbox m={2} />
       <button type="button" onClick={toggleConnection}>
         {connection}
       </button>
-      <input type="text" />
-      <select name="operator" id="operator">
-        <option value="is">is</option>
-        <option value="is">is not</option>
-        <option value="is">is greater than</option>
-        <option value="is">is less than</option>
-      </select>
-      <input type="text" />
-      <button type="button">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="w-5 h-5"
-        >
-          <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-        </svg>
-      </button>
-      <button type="button">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="w-5 h-5"
-        >
-          <path
-            fillRule="evenodd"
-            d="M4 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H4.75A.75.75 0 014 10z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </button>
-    </div>
+      <Select placeholder="a field" m={2} variant="flushed" width="40">
+        {renderFields()}
+      </Select>
+      <Select m={2} variant="flushed" width="40">
+        <option value="=">is</option>
+        <option value="!=">is not</option>
+        <option value=">">is greater than</option>
+        <option value="<">is less than</option>
+      </Select>
+      <Input
+        m={2}
+        variant="flushed"
+        placeholder="some value"
+        htmlSize={8}
+        width="auto"
+      />
+      <ButtonGroup m={2}>
+        <IconButton
+          variant="ghost"
+          aria-label="Add condition"
+          icon={<AddIcon />}
+        />
+        <IconButton
+          variant="ghost"
+          aria-label="Remove condition"
+          icon={<DeleteIcon />}
+        />
+      </ButtonGroup>
+    </Flex>
   )
 }
 

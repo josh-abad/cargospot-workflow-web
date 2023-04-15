@@ -4,6 +4,10 @@ interface Condition {
 
 interface Field {
   name: string;
-  value: string;
-  id: number;
+  type: 'text' | 'number'
+}
+
+interface CargospotEvent {
+  name: string;
+  fields: Field[];
 }

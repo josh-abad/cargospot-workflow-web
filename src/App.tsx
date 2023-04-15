@@ -1,25 +1,19 @@
-import { useState } from 'react'
+import { Box, Button, ButtonGroup } from '@chakra-ui/react'
+import AppBar from './components/AppBar'
 import Rule from './components/RulePanel'
-import useFields from './hooks/useFields'
 
 function App() {
-  const { fields } = useFields()
-
-  const renderFields = () => {
-    return fields.map((field, index) => {
-      return field.value
-    })
-  }
-
   return (
-    <div>
-      <Rule />
-      {renderFields()}
-      <div>
-        <button type="button">Save</button>
-        <button type="button">Cancel</button>
-      </div>
-    </div>
+    <Box>
+      <AppBar />
+      <Box margin={4}>
+        <Rule />
+        <ButtonGroup>
+          <Button colorScheme="blue">Save</Button>
+          <Button colorScheme="red">Cancel</Button>
+        </ButtonGroup>
+      </Box>
+    </Box>
   )
 }
 
