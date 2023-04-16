@@ -1,4 +1,5 @@
 import {
+  Box,
   Drawer,
   DrawerBody,
   DrawerContent,
@@ -31,9 +32,11 @@ function EventInput({ events, onEventSelect }: EventInputProps) {
   const renderEvents = () => {
     return events.map((event, i) => {
       return (
-        <button key={i} onClick={() => handleEventSelect(event)}>
-          {event.name}
-        </button>
+        <Box key={i}>
+          <button key={i} onClick={() => handleEventSelect(event)}>
+            {event.name}
+          </button>
+        </Box>
       )
     })
   }

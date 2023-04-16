@@ -1,7 +1,8 @@
 import { Box, Button, Container, Flex, Input, Text } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ConditionPanel from './ConditionPanel'
 import EventInput from './EventInput'
+import eventsService from '../services/events'
 
 function RulePanel() {
   const [ruleName, setRuleName] = useState('')
@@ -9,31 +10,14 @@ function RulePanel() {
   const [selectedEvent, setSelectedEvent] = useState<CargospotEvent | null>(
     null
   )
-  const [events, setEvents] = useState<CargospotEvent[]>(() => {
-    return [
-      {
-        name: 'A Booking is created',
-        fields: [
-          {
-            name: 'AWB serial',
-            type: 'text'
-          },
-          {
-            name: 'AWB weight',
-            type: 'number'
-          },
-          {
-            name: 'AWB pieces',
-            type: 'number'
-          },
-          {
-            name: 'Storage Location',
-            type: 'text'
-          }
-        ]
-      }
-    ]
-  })
+  const [events, setEvents] = useState<CargospotEvent[]>([])
+
+  useEffect(() => {
+    ;(async () => {
+      const events = await eventsService.getEvents()
+      setEvents(events)
+    })()
+  }, [])
 
   const renderConditions = () => {
     return conditions.map((condition, index) => {
